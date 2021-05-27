@@ -31,8 +31,6 @@ const drawerWidth = 240;
 
 const MainDrawer = (props) => {
   const [routeName,setRouteName]= useState('React X material UI');
-  const [open,setOpen]=useState(false);
-  const [variant,setVariant]=useState('permanent');
   useEffect(() => {
     let currentLocation = document.location.pathname;
     console.log('ubicacion Actual:',currentLocation)
@@ -43,10 +41,7 @@ const MainDrawer = (props) => {
   }, [])
   const classes = useStyles();
 
-  const handleDrawerToggle = () => {
-    console.log('Cambiando estado del drawer')
-    setOpen(!open);
-  };
+
   
 
   const PrimerContenido=()=>{
@@ -122,41 +117,16 @@ const MainDrawer = (props) => {
     <div className={classes.root}>
       <CssBaseline />
       
-      <AppBar position="fixed" className={classes.appBar}>
-        <Toolbar>
-          <IconButton
-            className={classes.menuButton}
-            color="inherit"
-            aria-label="Menu"
-            onClick={()=>handleDrawerToggle()}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" className={classes.titleStyle}>
-            {routeName}
-          </Typography>
-          <Button
-            color="inherit"
-            endIcon={
-              <Avatar
-                alt="Remy Sharp"
-                src="https://source.unsplash.com/random"
-              />
-            }
-          >
-            Oscar Josué Avila Gutiérrez
-          </Button>
-        </Toolbar>
-      </AppBar>
+      
       <Router>
-        <Hidden smDown>
+        
 
         
       <Drawer
         className={classes.drawer}
-        variant={variant}
-        open={open}
-        onClose={handleDrawerToggle}
+        variant={props.variant}
+        open={props.open}
+        onClose={props.onClose?props.onClose:null}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -166,14 +136,14 @@ const MainDrawer = (props) => {
         <Divider />
         <List component="nav">
           <ListItem button component={NavLink}
-            to="/Componente1" onClick={()=>setRouteName('Componente1')}>
+            to="/Componente1" onClick={()=>props.routeNameHandler('Componente1')}>
             <ListItemIcon>
               <InboxIcon color="inherit" />
             </ListItemIcon>
             <ListItemText primary="Componente 1" />
           </ListItem>
           <ListItem button component={NavLink}
-            to="/Componente2" onClick={()=>setRouteName('Componente2')}>
+            to="/Componente2" onClick={()=>props.routeNameHandler('Componente2')}>
             <ListItemIcon>
               <InboxIcon color="inherit" />
             </ListItemIcon>
@@ -183,7 +153,7 @@ const MainDrawer = (props) => {
         <Divider />
         <List component="nav">
         <ListItem button component={NavLink}
-            to="/Componente3" onClick={()=>setRouteName('Componente3')}>
+            to="/Componente3" onClick={()=>props.routeNameHandler('Componente3')}>
             <ListItemIcon>
               <InboxIcon color="inherit" />
             </ListItemIcon>
@@ -191,7 +161,6 @@ const MainDrawer = (props) => {
           </ListItem>
         </List>
       </Drawer>
-      </Hidden>
       
       <main className={classes.content}>
         <div className={classes.toolbar} />

@@ -1,19 +1,15 @@
 import React from "react";
 import { CssBaseline, makeStyles,Typography } from "@material-ui/core";
-import NavBar from "../Dashboard/NavBar";
+import NavBar from "../../Components/NavBar";
+import MainDrawer from "../../Components/MainDrawer";
+
 
 const MainContainer = () => {
   const styles = useStyles();
   return (
     <div className={styles.root}>
         <CssBaseline/>
-       <NavBar />
-       <main className={styles.content}>
-           <div className={styles.toolbar}>
-            <Typography variant="h6">HOLA MUNDO</Typography>
-           </div>
-       </main>
-      
+        <NavBar/>
     </div>
   );
 };
