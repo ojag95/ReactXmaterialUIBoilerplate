@@ -31,6 +31,28 @@ const drawerWidth = 240;
 
 const MainDrawer = (props) => {
   const [routeName,setRouteName]= useState('React X material UI');
+  const [selectedItem,setSelectedItem] =useState(0)
+
+  const routes=[
+    {
+      id:1,
+      name:'Dashboard',
+      path:'/Componente1',
+      icon:'ListItemIcon'
+    },
+    {
+      id:2,
+      name:'Clientes',
+      path:'/Componente2',
+      icon:'ListItemIcon'
+    },
+    {
+      id:3,
+      name:'Josmar',
+      path:'/Componente2',
+      icon:'ListItemIcon'
+    }
+  ]
   useEffect(() => {
     let currentLocation = document.location.pathname;
     console.log('ubicacion Actual:',currentLocation)
@@ -111,7 +133,25 @@ const MainDrawer = (props) => {
     )
   }
 
+
+  const RenderListItems=()=>{
+    return(routes.map((route)=>(
+      <ListItem key={route.id} button component={NavLink}
+      to="/Componente3" onClick={()=>props.routeNameHandler('Componente3')}>
+      <ListItemIcon>
+        <InboxIcon color="inherit" />
+      </ListItemIcon>
+      <ListItemText primary={route.name} />
+    </ListItem>
+    
+    )))
+  }
  
+  const SelectItem=(route,index)=>{
+    props.routeNameHandler(route);
+    setSelectedItem(index)
+
+  }
 
   return (
     <div className={classes.root}>
@@ -136,14 +176,14 @@ const MainDrawer = (props) => {
         <Divider />
         <List component="nav">
           <ListItem button component={NavLink}
-            to="/Componente1" onClick={()=>props.routeNameHandler('Componente1')}>
+            to="/Componente1" onClick={()=>SelectItem('Componente1',0)} selected={selectedItem === 0}>
             <ListItemIcon>
               <InboxIcon color="inherit" />
             </ListItemIcon>
             <ListItemText primary="Componente 1" />
           </ListItem>
           <ListItem button component={NavLink}
-            to="/Componente2" onClick={()=>props.routeNameHandler('Componente2')}>
+            to="/Componente2" onClick={()=>SelectItem('Componente2',1)} selected={selectedItem === 1}>
             <ListItemIcon>
               <InboxIcon color="inherit" />
             </ListItemIcon>
@@ -153,12 +193,14 @@ const MainDrawer = (props) => {
         <Divider />
         <List component="nav">
         <ListItem button component={NavLink}
-            to="/Componente3" onClick={()=>props.routeNameHandler('Componente3')}>
+            to="/Componente3" onClick={()=>SelectItem('Componente3',2)} selected={selectedItem === 2}>
             <ListItemIcon>
               <InboxIcon color="inherit" />
             </ListItemIcon>
             <ListItemText primary="Componente 3" />
           </ListItem>
+          <RenderListItems/>
+          
         </List>
       </Drawer>
       

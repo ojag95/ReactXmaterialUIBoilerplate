@@ -12,23 +12,41 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-import { IconButton, Button, Avatar, Hidden } from "@material-ui/core";
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import SettingsIcon from '@material-ui/icons/Settings';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import {
+  IconButton,
+  Button,
+  Avatar,
+  Hidden,
+  Menu,
+  MenuItem,
+} from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import MainDrawer from "../Components/MainDrawer";
 
 const drawerWidth = 240;
 const NavBar = (props) => {
-    const [open,setOpen]=useState(false);
-    const [routeName,setRouteName]=useState('ReactXMaterialUI');
+  const [open, setOpen] = useState(false);
+  const [routeName, setRouteName] = useState("ReactXMaterialUI");
+  const [anclaje, setAnclaje] = React.useState(null);
 
-    const handleRouteName=(routeName)=>{
-        setRouteName(routeName);
+  const handleMenuOpen = (event) => {
+    setAnclaje(event.currentTarget);
+  };
 
-    }
+  const handleMenuClosing = () => {
+    setAnclaje(null);
+  };
 
-    const handleDrawerToggle = () => {
-        setOpen(!open);
-      };
+  const handleRouteName = (routeName) => {
+    setRouteName(routeName);
+  };
+
+  const handleDrawerToggle = () => {
+    setOpen(!open);
+  };
 
   const classes = useStyles();
   return (
@@ -39,7 +57,7 @@ const NavBar = (props) => {
             className={classes.menuButton}
             color="inherit"
             aria-label="Menu"
-            onClick={()=>handleDrawerToggle()}
+            onClick={() => handleDrawerToggle()}
           >
             <MenuIcon />
           </IconButton>
@@ -48,6 +66,8 @@ const NavBar = (props) => {
           </Typography>
           <Button
             color="inherit"
+            aria-haspopup="true"
+            onClick={(event) => handleMenuOpen(event)}
             endIcon={
               <Avatar
                 alt="Remy Sharp"
@@ -57,13 +77,65 @@ const NavBar = (props) => {
           >
             Oscar Josué Avila Gutiérrez
           </Button>
+          <Menu
+            id="simple-menu"
+            anchorEl={anclaje}
+            className={classes.menuStyles}
+            anchorOrigin={{
+              vertical: "center",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            getContentAnchorEl={null}
+            keepMounted
+            open={Boolean(anclaje)}
+            onClose={handleMenuClosing}
+          >
+            <MenuItem onClick={handleMenuClosing}>
+            <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
+              <ListItemText
+                
+                primary="Perfil"
+              />
+            </MenuItem>
+            <MenuItem onClick={handleMenuClosing}>
+            <ListItemIcon>
+                <SettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                
+                primary="Ajustes"
+              />
+            </MenuItem>
+            <Divider/>
+
+            <MenuItem onClick={handleMenuClosing}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+              <ListItemText
+                
+                primary="Cerrar Sesión"
+              />
+            </MenuItem>
+          </Menu>
         </Toolbar>
       </AppBar>
       <Hidden smDown>
         <MainDrawer variant={"permanent"} routeNameHandler={handleRouteName} />
       </Hidden>
       <Hidden mdUp>
-        <MainDrawer variant={"temporary"} open={open} routeNameHandler={handleRouteName} onClose={()=>handleDrawerToggle()} />
+        <MainDrawer
+          variant={"temporary"}
+          open={open}
+          routeNameHandler={handleRouteName}
+          onClose={() => handleDrawerToggle()}
+        />
       </Hidden>
     </>
   );
@@ -79,15 +151,10 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: drawerWidth,
     },
   },
-  drawer: {
-    [theme.breakpoints.up("md")]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
+  menuStyles:{
+    marginTop: theme.spacing(6),
   },
-  drawerPaper: {
-    width: drawerWidth,
-  },
+
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
   content: {
